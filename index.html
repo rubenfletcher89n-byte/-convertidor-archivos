@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convertidor de archivos gratis: PDF, PNG, JPG y WEBP</title>
+<meta name="description" content="Convierte PDF a imágenes, imágenes a PDF y PNG, JPG o WEBP entre sí. Gratis, rápido y sin subir tus archivos a ningún servidor.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<!-- ANUNCIOS: cuando Google AdSense te apruebe, pega aquí tu script:
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<style>
+:root{--bg:#f6f7f4;--ink:#16211c;--mut:#5b6760;--card:#fff;--line:#d9dfd9;--acc:#0f6b4f;--acc2:#0b513c;--hi:#e8f3ee}
+@media (prefers-color-scheme:dark){:root{--bg:#101612;--ink:#e9efea;--mut:#9aa8a0;--card:#18211b;--line:#2b382f;--acc:#3fc08f;--acc2:#6fd6ae;--hi:#1b2a22}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Figtree,system-ui,sans-serif}
+header,main,footer{max-width:860px;margin:0 auto;padding:0 20px}
+header{padding-top:36px}
+h1{font:800 clamp(1.9rem,5vw,3rem)/1.1 "Bricolage Grotesque",sans-serif;margin:0 0 10px;letter-spacing:-.02em}
+header p{color:var(--mut);margin:0 0 24px;max-width:60ch}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tabs button{font:600 .95rem Figtree,sans-serif;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (prefers-color-scheme:dark){.tabs button[aria-selected=true]{color:#06120c}}
+button:focus-visible,select:focus-visible,label:focus-within{outline:3px solid var(--acc);outline-offset:2px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.drop{display:block;border:2px dashed var(--acc);background:var(--hi);border-radius:12px;padding:34px 16px;text-align:center;cursor:pointer;font-weight:600}
+.drop.over{background:var(--card)}
+.drop small{display:block;font-weight:400;color:var(--mut);margin-top:4px}
+.drop input{position:absolute;opacity:0;width:1px;height:1px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:16px}
+select{font:inherit;padding:9px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.go{font:700 1rem Figtree,sans-serif;padding:11px 22px;border:0;border-radius:8px;background:var(--acc);color:#fff;cursor:pointer}
+@media (prefers-color-scheme:dark){.go{color:#06120c}}
+.go:disabled{opacity:.5;cursor:not-allowed}
+ul#files{list-style:none;padding:0;margin:14px 0 0}
+#files li{padding:8px 0;border-bottom:1px solid var(--line);font-size:.95rem;word-break:break-all}
+#status{margin-top:14px;color:var(--mut);min-height:1.5em}
+#results a{display:inline-block;margin:6px 8px 0 0;padding:8px 14px;border-radius:8px;background:var(--hi);color:var(--acc2);font-weight:600;text-decoration:none;border:1px solid var(--line)}
+.ad{margin:22px 0;min-height:90px;border:1px dashed var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:.85rem;text-align:center;padding:8px}
+section.info{margin:30px 0}
+section.info h2{font:700 1.3rem "Bricolage Grotesque",sans-serif;margin:0 0 6px}
+section.info p{color:var(--mut);margin:0 0 14px;max-width:70ch}
+footer{padding:20px;color:var(--mut);font-size:.85rem;border-top:1px solid var(--line);margin-top:30px}
+footer a{color:var(--acc2)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Convierte tus archivos en segundos</h1>
+  <p>PDF a imágenes, imágenes a PDF, y cambios entre PNG, JPG y WEBP. Todo ocurre en tu navegador: tus archivos nunca se suben a un servidor.</p>
+</header>
+
+<main>
+  <div class="tabs" role="tablist" id="tabs">
+    <button role="tab" aria-selected="true" data-m="img">PNG / JPG / WEBP</button>
+    <button role="tab" aria-selected="false" data-m="img2pdf">Imágenes a PDF</button>
+    <button role="tab" aria-selected="false" data-m="pdf2img">PDF a imágenes</button>
+    <button role="tab" aria-selected="false" data-m="pdf2txt">PDF a texto</button>
+  </div>
+
+  <div class="panel">
+    <label class="drop" id="drop">
+      <span id="droptxt">Elige imágenes o arrástralas aquí</span>
+      <small id="dropsub">Puedes seleccionar varias a la vez</small>
+      <input type="file" id="file" multiple accept="image/*">
+    </label>
+    <ul id="files"></ul>
+    <div class="row">
+      <label id="fmtwrap">Convertir a
+        <select id="fmt"><option value="image/jpeg|jpg">JPG</option><option value="image/png|png">PNG</option><option value="image/webp|webp">WEBP</option></select>
+      </label>
+      <button class="go" id="go" disabled>Convertir</button>
+    </div>
+    <div id="status" role="status" aria-live="polite"></div>
+    <div id="results"></div>
+  </div>
+
+  <!-- ESPACIO PARA ANUNCIO 1 -->
+  <div class="ad" id="ad1">
+    <!-- Reemplaza este contenido con tu bloque de AdSense:
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    Espacio para anuncio
+  </div>
+
+  <section class="info">
+    <h2>¿Cómo funciona?</h2>
+    <p>Elige el tipo de conversión, selecciona tus archivos y pulsa Convertir. Descarga cada resultado con un clic. Como el proceso es local, es rápido y tus documentos se mantienen privados.</p>
+    <h2>Formatos disponibles</h2>
+    <p>Imágenes entre PNG, JPG y WEBP; varias imágenes en un solo PDF; cada página de un PDF como imagen; y el texto de un PDF en un archivo .txt.</p>
+  </section>
+
+  <!-- ESPACIO PARA ANUNCIO 2 -->
+  <div class="ad" id="ad2">Espacio para anuncio</div>
+</main>
+
+<footer>
+  © <span id="yr"></span> Convertidor de archivos ·
+  <a href="privacidad.html">Política de privacidad</a> ·
+  Este sitio puede mostrar anuncios de Google.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const $=id=>document.getElementById(id);
+let mode='img',files=[];
+const cfg={
+ img:{accept:'image/*',t:'Elige imágenes o arrástralas aquí',s:'Puedes seleccionar varias a la vez',fmt:true,
+   opts:[['image/jpeg|jpg','JPG'],['image/png|png','PNG'],['image/webp|webp','WEBP']]},
+ img2pdf:{accept:'image/*',t:'Elige las imágenes para tu PDF',s:'Se agregan en el orden en que las selecciones',fmt:false},
+ pdf2img:{accept:'application/pdf',t:'Elige un archivo PDF o arrástralo aquí',s:'Cada página se convierte en una imagen',fmt:true,
+   opts:[['image/png|png','PNG'],['image/jpeg|jpg','JPG']]},
+ pdf2txt:{accept:'application/pdf',t:'Elige un archivo PDF o arrástralo aquí',s:'Funciona con PDF que tengan texto seleccionable',fmt:false}
+};
+function setMode(m){
+ mode=m;files=[];const c=cfg[m];
+ document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.m===m));
+ $('file').accept=c.accept;$('file').multiple=(m!=='pdf2txt'&&m!=='pdf2img')||false;
+ $('file').multiple=m==='img'||m==='img2pdf';
+ $('file').value='';$('droptxt').textContent=c.t;$('dropsub').textContent=c.s;
+ $('fmtwrap').style.display=c.fmt?'':'none';
+ if(c.fmt)$('fmt').innerHTML=c.opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('');
+ $('results').innerHTML='';$('status').textContent='';render();
+}
+function render(){
+ $('files').innerHTML=files.map(f=>`<li>${f.name} (${(f.size/1024).toFixed(0)} KB)</li>`).join('');
+ $('go').disabled=!files.length;
+}
+function take(list){
+ const c=cfg[mode];
+ files=[...list].filter(f=>c.accept==='image/*'?f.type.startsWith('image/'):f.type==='application/pdf');
+ if(mode==='pdf2img'||mode==='pdf2txt')files=files.slice(0,1);
+ $('results').innerHTML='';
+ $('status').textContent=files.length?'':'Ese tipo de archivo no es válido para esta conversión.';
+ render();
+}
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setMode(b.dataset.m)});
+$('file').addEventListener('change',e=>take(e.target.files));
+const drop=$('drop');
+['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>take(e.dataTransfer.files));
+
+function link(blob,name){
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.textContent='Descargar '+name;$('results').appendChild(a);
+}
+const base=n=>n.replace(/\.[^.]+$/,'');
+function loadImg(f){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error('No se pudo leer '+f.name));i.src=URL.createObjectURL(f)})}
+function toBlob(cv,type){return new Promise(r=>cv.toBlob(r,type,.92))}
+function flat(img,type){
+ const cv=document.createElement('canvas');cv.width=img.naturalWidth||img.width;cv.height=img.naturalHeight||img.height;
+ const x=cv.getContext('2d');if(type==='image/jpeg'){x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height)}
+ x.drawImage(img,0,0);return cv;
+}
+async function run(){
+ $('go').disabled=true;$('results').innerHTML='';$('status').textContent='Convirtiendo…';
+ try{
+  if(mode==='img'){
+   const [type,ext]=$('fmt').value.split('|');
+   for(const f of files){const cv=flat(await loadImg(f),type);link(await toBlob(cv,type),base(f.name)+'.'+ext)}
+  }else if(mode==='img2pdf'){
+   const {jsPDF}=window.jspdf;let doc=null;
+   for(const f of files){
+    const img=await loadImg(f),cv=flat(img,'image/jpeg'),w=cv.width,h=cv.height;
+    const o=w>h?'l':'p';
+    if(!doc)doc=new jsPDF({orientation:o,unit:'pt',format:[w,h]});else doc.addPage([w,h],o);
+    doc.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',0,0,w,h);
+   }
+   link(doc.output('blob'),'imagenes.pdf');
+  }else{
+   const pdf=await pdfjsLib.getDocument({data:await files[0].arrayBuffer()}).promise,n=base(files[0].name);
+   if(mode==='pdf2img'){
+    const [type,ext]=$('fmt').value.split('|');
+    for(let p=1;p<=pdf.numPages;p++){
+     $('status').textContent=`Convirtiendo página ${p} de ${pdf.numPages}…`;
+     const pg=await pdf.getPage(p),vp=pg.getViewport({scale:2}),cv=document.createElement('canvas');
+     cv.width=vp.width;cv.height=vp.height;const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);
+     await pg.render({canvasContext:x,viewport:vp}).promise;
+     link(await toBlob(cv,type),`${n}-pagina-${p}.${ext}`);
+    }
+   }else{
+    let t='';
+    for(let p=1;p<=pdf.numPages;p++){const c=await(await pdf.getPage(p)).getTextContent();t+=c.items.map(i=>i.str).join(' ')+'\n\n'}
+    if(!t.trim())throw new Error('Este PDF no tiene texto seleccionable (parece un escaneo).');
+    link(new Blob([t],{type:'text/plain'}),n+'.txt');
+   }
+  }
+  $('status').textContent='Listo. Descarga tus archivos:';
+ }catch(e){$('status').textContent='Error: '+e.message}
+ $('go').disabled=false;
+}
+$('go').addEventListener('click',run);
+setMode('img');
+</script>
+</body>
+</html>
